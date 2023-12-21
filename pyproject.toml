@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kalkon"
+description = "Calculator with GUI"
+version = "0.1.0"
+authors = [{name = "Fredrik Andersson", email = "freand@gmail.com"}]
+maintainers =  [{name = "Fredrik Andersson", email = "freand@gmail.com"}]
+readme = "README.md"
+license = { file = "LICENSE.md" }
+urls = { homepage = "https://github.com/freand76/kalkon" }
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3 :: Only",
+]
+
+requires-python = ">=3.8"
+dependencies = [
+  "pyside6>=6.6.0",
+  "pexpect==4.8.0",
+  "asteval==0.9.31",
+]
+
+keywords = ["calculator"]
+
+[tool.black]
+line-length = 99
+
+[tool.isort]
+line_length = 99
+lines_after_imports = 2
+multi_line_output = 3
+indent = 4
+default_section = "FIRSTPARTY"
+include_trailing_comma = true
+known_qt = "PySide6"
+known_thirdparty = ["asteval", "qtawesome"]
+sections = [
+    "FUTURE",
+    "STDLIB",
+    "THIRDPARTY",
+    "QT",
+    "FIRSTPARTY",
+    "LOCALFOLDER",
+]
+
+[tool.pylint.'MESSAGES CONTROL']
+max-line-length = 99
+disable = """
+    no-member,
+    invalid-name,
+    duplicate-code,
+"""
+ignored-modules = """
+   asteval,
+   PySide6,
+"""
+
+[tool.flake8]
+ignore = ['W503']
+max-line-length = 99
+exclude = """
+    build,
+    .venv,
+    .nox,
+"""
