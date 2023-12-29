@@ -24,7 +24,7 @@ margin:0px; border:2px solid rgb(0, 255, 0);
 class ValueType(Enum):
     """Value Type class"""
 
-    INT = auto()
+    FLOAT = auto()
     INT8 = auto()
     INT16 = auto()
     INT32 = auto()
@@ -51,8 +51,8 @@ class Kalkon:
     def __init__(self):
         super().__init__()
         self._stack = None
-        self._type = ValueType.INT
-        self._system = ValueSystem.DECIMAL
+        self._type = ValueType.FLOAT
+        self._format = ValueSystem.DECIMAL
         self._status = ""
         self._error = False
         self._stack_updated = False
@@ -64,11 +64,9 @@ class Kalkon:
 
     def _set_type(self, value_type):
         self._type = value_type
-        print(self._type)
 
     def _set_system(self, system):
-        self._system = system
-        print(self._system)
+        self._format = system
 
     def clear(self):
         """Clear history"""
@@ -90,10 +88,48 @@ class Kalkon:
         """Return status"""
         return self._status
 
+    def _is_signed_type(self):
+        if self._type in [ValueType.INT8, ValueType.INT16, ValueType.INT32, ValueType.INT64]:
+            return True
+        return False
+
+    def _get_typed_result(self, value):
+        if self._type == ValueType.FLOAT:
+            return value
+        signed = self._is_signed_type()
+        int_value = int(value)
+        try:
+            value_bytes = int_value.to_bytes(8, "little", signed=signed)
+        except OverflowError:
+            return None
+        width = 1
+        if self._type in [ValueType.INT8, ValueType.UINT8]:
+            width = 1
+        elif self._type in [ValueType.INT16, ValueType.UINT16]:
+            width = 2
+        elif self._type in [ValueType.INT32, ValueType.UINT32]:
+            width = 4
+        elif self._type in [ValueType.INT64, ValueType.UINT64]:
+            width = 8
+        return int.from_bytes(value_bytes[0:width], "little", signed=signed)
+
+    def _get_formatted_result(self, value):
+        if value is None:
+            return ""
+        if self._format == ValueSystem.BINARY:
+            return f"0b{int(value):b}"
+        if self._format == ValueSystem.HEXADECIMAL:
+            return f"0x{int(value):x}"
+        return str(value)
+
     def get_result(self, index=0):
         """Return result"""
-        result = self._stack[index][1] or ""
-        return str(result)
+        value = self._stack[index][1]
+        if value is None:
+            return ""
+        value = self._get_typed_result(value)
+        value = self._get_formatted_result(value)
+        return value
 
     def get_expression(self, index=0):
         """Return expression"""
@@ -115,7 +151,7 @@ class Kalkon:
             ":dec": partial(self._set_system, ValueSystem.DECIMAL),
             ":hex": partial(self._set_system, ValueSystem.HEXADECIMAL),
             ":bin": partial(self._set_system, ValueSystem.BINARY),
-            ":int": partial(self._set_type, ValueType.INT),
+            ":float": partial(self._set_type, ValueType.FLOAT),
             ":i8": partial(self._set_type, ValueType.INT8),
             ":i16": partial(self._set_type, ValueType.INT16),
             ":i32": partial(self._set_type, ValueType.INT32),
