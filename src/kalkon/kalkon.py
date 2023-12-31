@@ -97,7 +97,7 @@ class Kalkon:
         try:
             value_bytes = int_value.to_bytes(8, "little", signed=True)
         except OverflowError:
-            print("OverflowError")
+            self._status = "Input overflow"
             return None
         width = 1
         if self._type in [ValueType.INT8, ValueType.UINT8]:
