@@ -13,7 +13,9 @@ from asteval import Interpreter
 class ValueType(Enum):
     """Value Type class"""
 
+    FLOAT = auto()
     F32 = auto()
+    INT = auto()
     INT8 = auto()
     INT16 = auto()
     INT32 = auto()
@@ -40,7 +42,7 @@ class Kalkon:
     def __init__(self):
         super().__init__()
         self._stack = None
-        self._type = ValueType.INT64
+        self._type = ValueType.FLOAT
         self._format = ValueFormat.DECIMAL
         self._status = ""
         self._error = False
@@ -52,10 +54,16 @@ class Kalkon:
         self.clear()
 
     def _set_type(self, value_type):
-        self._type = value_type
+        if value_type == ValueType.FLOAT and self._format == ValueFormat.BINARY:
+            self._status = "No binary representation for float"
+        else:
+            self._type = value_type
 
-    def _set_format(self, system):
-        self._format = system
+    def _set_format(self, value_format):
+        if self._type == ValueType.FLOAT and value_format == ValueFormat.BINARY:
+            self._status = "No binary representation for float"
+        else:
+            self._format = value_format
 
     def get_type(self):
         """Get value type"""
@@ -90,7 +98,7 @@ class Kalkon:
         return False
 
     def _get_typed_result(self, value):
-        if self._type == ValueType.F32:
+        if self._type in [ValueType.F32, ValueType.FLOAT, ValueType.INT]:
             return value
         signed = self._is_signed_type()
         int_value = int(value)
@@ -110,30 +118,34 @@ class Kalkon:
             width = 8
         return int.from_bytes(value_bytes[0:width], "little", signed=signed)
 
-    def _get_formatted_result(self, value):  # pylint: disable=too-many-return-statements
+    def _get_formatted_result(self, value):
+        result_str = ""
         if value is None:
-            return ""
-        if self._format == ValueFormat.BINARY:
-            if self._type == ValueType.F32:
+            result_str = ""
+        elif self._format == ValueFormat.BINARY:
+            if self._type == ValueType.FLOAT:
+                result_str = ""
+            elif self._type == ValueType.F32:
                 value_bytes = struct.pack("f", value)
                 value = int.from_bytes(value_bytes[0:4], "little")
-                return f"{bin(value)}"
-            negative = "-" if value < 0 else ""
-            value = abs(value)
-            return f"{negative}0b{int(value):b}"
-        if self._format == ValueFormat.HEXADECIMAL:
-            if self._type == ValueType.F32:
+                result_str = f"{bin(value)}"
+            else:
+                result_str = bin(value)
+        elif self._format == ValueFormat.HEXADECIMAL:
+            if self._type == ValueType.FLOAT:
+                result_str = float.hex(float(value))
+            elif self._type == ValueType.F32:
                 value_bytes = struct.pack("f", value)
                 value = int.from_bytes(value_bytes[0:4], "little")
-                return f"{hex(value)}"
-            negative = "-" if value < 0 else ""
-            value = abs(value)
-            return f"{negative}0x{int(value):x}"
-        if self._type == ValueType.F32:
-            value_bytes = struct.pack("f", value)
-            value = struct.unpack("f", value_bytes)[0]
-            return str(value)
-        return str(value)
+                result_str = hex(value)
+            else:
+                result_str = hex(value)
+        else:
+            if self._type == ValueType.F32:
+                value_bytes = struct.pack("f", value)
+                value = struct.unpack("f", value_bytes)[0]
+            result_str = str(value)
+        return result_str
 
     def get_result(self, index=0):
         """Return result"""
@@ -178,10 +190,12 @@ class Kalkon:
 
     def _process_command(self, expression, enter):
         _cmd_dict = {
+            ":float": partial(self._set_type, ValueType.FLOAT),
             ":dec": partial(self._set_format, ValueFormat.DECIMAL),
             ":hex": partial(self._set_format, ValueFormat.HEXADECIMAL),
             ":bin": partial(self._set_format, ValueFormat.BINARY),
             ":f32": partial(self._set_type, ValueType.F32),
+            ":int": partial(self._set_type, ValueType.INT),
             ":i8": partial(self._set_type, ValueType.INT8),
             ":i16": partial(self._set_type, ValueType.INT16),
             ":i32": partial(self._set_type, ValueType.INT32),

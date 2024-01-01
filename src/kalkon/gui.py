@@ -191,6 +191,8 @@ class CentralWidget(QWidget):
             ValueFormat.HEXADECIMAL: "HEX",
             ValueFormat.BINARY: "BIN",
             ValueType.F32: "F32/IEEE-754",
+            ValueType.FLOAT: "FLOAT       ",
+            ValueType.INT: "INTEGER     ",
             ValueType.INT8: "INT8        ",
             ValueType.INT16: "INT16       ",
             ValueType.INT32: "INT32        ",
