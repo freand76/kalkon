@@ -9,7 +9,7 @@ version = "0.1.0"
 authors = [{name = "Fredrik Andersson", email = "freand@gmail.com"}]
 maintainers =  [{name = "Fredrik Andersson", email = "freand@gmail.com"}]
 readme = "README.md"
-license = { file = "LICENSE.md" }
+license = { file = "LICENSE" }
 urls = { homepage = "https://github.com/freand76/kalkon" }
 
 classifiers = [
