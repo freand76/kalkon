@@ -12,6 +12,34 @@
   <img alt="Kalkon" src="https://raw.githubusercontent.com/freand76/kalkon/09cf8aa94aaf30b82a9e00e68c696bd3865af394/src/kalkon/images/kalkon.png" width=50%>
 </p>
 
+## Quickstart
+
+### Install from PyPi
+```
+pip3 install kalkon
+```
+
+### Install from GitHub
+```
+> git clone https://github.com/freand76/kalkon.git
+> cd kalkon
+> python3 -m pip install .
+```
+
+### Start
+
+Start using python.
+
+```
+> python3 -m kalkon
+```
+
+Start using shell script (if the pip3 bin-folder is in your path).
+
+```
+> kalkon
+```
+
 ## Calculator
 
 <p align="center">
