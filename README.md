@@ -43,7 +43,8 @@ foo=3
 
 ### Commands
 
-All commands start with a colon character, **:**
+All commands start with a colon character
+*Example:* **:hex**
 
 **Output format commands**
 
