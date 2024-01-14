@@ -1,3 +1,7 @@
+![Python Version from PEP 621 TOML](https://img.shields.io/python/required-version-toml?tomlFilePath=https%3A%2F%2Fraw.githubusercontent.com%2Ffreand76%2Fkalkon%2Fmain%2Fpyproject.toml)
+![PyPI - Version](https://img.shields.io/pypi/v/kalkon)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/kalkon)
+
 # Kalkon - /kalˈkuːn/
 
 *Swedish Noun*
