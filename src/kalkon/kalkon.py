@@ -263,6 +263,10 @@ class Kalkon:
             result = ""
             return False
 
+        if isinstance(result, str):
+            self._status = "Strings are not supported"
+            return False
+
         if len(self._interpreter.error) == 0:
             if enter:
                 self._push(expression, result)
