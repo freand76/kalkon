@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "kalkon"
 description = "Calculator with GUI"
-version = "0.2.0"
+version = "0.3.0"
 authors = [{name = "Fredrik Andersson", email = "freand@gmail.com"}]
 maintainers =  [{name = "Fredrik Andersson", email = "freand@gmail.com"}]
 readme = "README.md"
