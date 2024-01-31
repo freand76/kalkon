@@ -233,7 +233,7 @@ class Kalkon:
             return False
         return True
 
-    def evaluate(self, expression, enter=False):  # pylint: disable=too-many-return-statements
+    def evaluate(self, expression, enter=False):
         """Evaluate expression"""
         self._status = ""
         self._error = False

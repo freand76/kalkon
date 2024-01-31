@@ -3,8 +3,6 @@
 
 """The kalkon calculator GUI"""
 
-# pylint: disable=too-few-public-methods
-
 from PySide6.QtCore import QEvent, Qt, Signal
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QLabel, QLineEdit, QMainWindow, QTextEdit, QVBoxLayout, QWidget

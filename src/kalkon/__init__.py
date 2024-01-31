@@ -3,4 +3,4 @@
 
 """ All classes within kalkon """
 
-from .main import main  # noqa: F401
+from .main import main
