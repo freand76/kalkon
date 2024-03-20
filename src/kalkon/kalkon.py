@@ -98,6 +98,8 @@ class Kalkon:
         return False
 
     def _get_typed_result(self, value):
+        if self._type == ValueType.INT:
+            return int(value)
         if self._type in [ValueType.F32, ValueType.FLOAT, ValueType.INT]:
             return value
         signed = self._is_signed_type()
