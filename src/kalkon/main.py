@@ -1,7 +1,7 @@
 # Copyright (c) Fredrik Andersson, 2023-2024
 # All rights reserved
 
-""" The main function module of the kalkon calculator """
+"""The main function module of the kalkon calculator"""
 
 import sys
 from pathlib import Path
