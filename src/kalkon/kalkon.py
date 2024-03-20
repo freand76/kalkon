@@ -244,6 +244,8 @@ class Kalkon:
             self._set(None, None)
             return False
 
+        expression = expression.replace(",", ".")
+
         if self._process_command(expression, enter):
             if self._status:
                 return False
@@ -261,7 +263,7 @@ class Kalkon:
             return False
 
         result = self._interpreter(expression, show_errors=False, raise_errors=False)
-        if result is not None and "<built-in function" in str(result):
+        if result is not None and ("<built-in function" in str(result) or "<class" in str(result)):
             result = ""
             return False
 
