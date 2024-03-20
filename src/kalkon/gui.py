@@ -48,12 +48,7 @@ class History(QTextEdit):
         for index in range(0, self._num_lines):
             line_str = self._kalkon.get_expression(index)
             if line_str:
-                result_str = " = " + self._kalkon.get_result(index)
-                max_length = self._num_cols - len(line_str)
-                if max_length > 0:
-                    line_str = line_str + f"{result_str:>{max_length}}"
-                else:
-                    line_str = line_str + " = ..."
+                line_str += " = " + self._kalkon.get_result(index)
             else:
                 line_str = ""
             if len(line_str) > self._num_cols:
