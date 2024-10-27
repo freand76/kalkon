@@ -14,7 +14,6 @@ urls = { homepage = "https://github.com/freand76/kalkon" }
 
 classifiers = [
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -22,11 +21,11 @@ classifiers = [
   "Programming Language :: Python :: 3 :: Only",
 ]
 
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = [
-  "pyside6>=6.6.0",
-  "pexpect==4.8.0",
-  "asteval==0.9.31",
+  "pyside6>=6.7.3,<6.8",
+  "pexpect==4.9.0",
+  "asteval==1.0.5",
 ]
 
 scripts = { kalkon = "kalkon:main" }
